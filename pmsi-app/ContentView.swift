@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var buttonDisabled = false;
+    @State private var isProgressing = false;
+    
+    let totalNumOfRounds = 10;
     
     var body: some View {
         HStack {
@@ -21,10 +23,11 @@ struct ContentView: View {
         VStack {
             Button(action: {
                 Task {
-                    buttonDisabled = true
+                    isProgressing = true
                     
                     // Code function
-                    for round in 1...10 {
+                    for round in 1...totalNumOfRounds {
+                        
                         let min = 5.0
                         let max = 20.0
                         let timing = Double.random(in: min...max)
@@ -36,12 +39,17 @@ struct ContentView: View {
                         print("\(round): Run at \(Date())")
                     }
                     
-                    buttonDisabled = false
+                    isProgressing = false
                 }
             }) {
                 Text("Begin")
             }
-            .disabled(buttonDisabled)
+            .disabled(isProgressing)
+            
+            ProgressView()
+            .padding()
+            .progressViewStyle(.circular)
+            .opacity(isProgressing ? 1 : 0)
         }
     }
 
