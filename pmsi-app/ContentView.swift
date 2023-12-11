@@ -6,11 +6,34 @@
 //
 
 import SwiftUI
+import AudioToolbox
 
 struct ContentView: View {
     @State private var isProgressing = false;
     
     let totalNumOfRounds = 10;
+    
+    func startExperiemnt() {
+        Task {
+            isProgressing = true
+            
+            // Code function
+            for round in 1...totalNumOfRounds {
+                
+                let min = 5.0
+                let max = 20.0
+                let timing = Double.random(in: min...max)
+                
+                print("Wait for \(timing) seconds...")
+                
+                try await Task.sleep(nanoseconds: UInt64(timing * Double(NSEC_PER_SEC)))
+                
+                print("\(round): Run at \(Date())")
+            }
+            
+            isProgressing = false
+        }
+    }
     
     var body: some View {
         HStack {
@@ -19,37 +42,17 @@ struct ContentView: View {
             Text("Haptic Psychophysics")
                 .font(.title2)
         }
-        .padding()
+        .padding(.bottom)
         VStack {
-            Button(action: {
-                Task {
-                    isProgressing = true
-                    
-                    // Code function
-                    for round in 1...totalNumOfRounds {
-                        
-                        let min = 5.0
-                        let max = 20.0
-                        let timing = Double.random(in: min...max)
-                        
-                        print("Wait for \(timing) seconds...")
-                        
-                        try await Task.sleep(nanoseconds: UInt64(timing * Double(NSEC_PER_SEC)))
-                        
-                        print("\(round): Run at \(Date())")
-                    }
-                    
-                    isProgressing = false
-                }
-            }) {
+            Button(action: startExperiemnt) {
                 Text("Begin")
             }
             .disabled(isProgressing)
             
             ProgressView()
-            .padding()
-            .progressViewStyle(.circular)
-            .opacity(isProgressing ? 1 : 0)
+                .padding()
+                .progressViewStyle(.circular)
+                .opacity(isProgressing ? 1 : 0)
         }
     }
 
