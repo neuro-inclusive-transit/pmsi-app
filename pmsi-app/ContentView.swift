@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var buttonDisabled = false;
+    
     var body: some View {
         HStack {
             Image(systemName: "hand.tap")
@@ -18,26 +20,31 @@ struct ContentView: View {
         .padding()
         VStack {
             Button(action: {
-                // Code function
-                for round in 1...10 {
-                    // TODO: Timings min und max klären
-                    runAfterRandomTime(min: 10.0, max: 40.0, action: {
+                Task {
+                    buttonDisabled = true
+                    
+                    // Code function
+                    for round in 1...10 {
+                        let min = 5.0
+                        let max = 20.0
+                        let timing = Double.random(in: min...max)
+                        
+                        print("Wait for \(timing) seconds...")
+                        
+                        try await Task.sleep(nanoseconds: UInt64(timing * Double(NSEC_PER_SEC)))
+                        
                         print("\(round): Run at \(Date())")
-                    })
+                    }
+                    
+                    buttonDisabled = false
                 }
             }) {
                 Text("Begin")
             }
+            .disabled(buttonDisabled)
         }
-        
-        
     }
-    
-    func runAfterRandomTime(min: Double, max: Double, action: @escaping () -> Void ) {
-        let timing = Double.random(in: min...max)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + timing, execute: DispatchWorkItem(block: action))
-    }
+
 }
 
 #Preview {
