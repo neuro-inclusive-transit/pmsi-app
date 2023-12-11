@@ -9,13 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
+        HStack {
+            Image(systemName: "hand.tap")
                 .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Haptic Psychophysics")
+                .font(.title2)
         }
         .padding()
+        VStack {
+            Button(action: {
+                // Code function
+            }) {
+                Text("Begin")
+            }
+        }
+        
+        
     }
 }
 
