@@ -19,12 +19,24 @@ struct ContentView: View {
         VStack {
             Button(action: {
                 // Code function
+                for round in 1...10 {
+                    // TODO: Timings min und max klären
+                    runAfterRandomTime(min: 10.0, max: 40.0, action: {
+                        print("\(round): Run at \(Date())")
+                    })
+                }
             }) {
                 Text("Begin")
             }
         }
         
         
+    }
+    
+    func runAfterRandomTime(min: Double, max: Double, action: @escaping () -> Void ) {
+        let timing = Double.random(in: min...max)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + timing, execute: DispatchWorkItem(block: action))
     }
 }
 
