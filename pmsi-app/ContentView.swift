@@ -6,14 +6,21 @@
 //
 
 import SwiftUI
-import AudioToolbox
+import CoreHaptics
 
 struct ContentView: View {
+    
+    
+    @State var engine: CHHapticEngine!
     @State private var isProgressing = false;
+    
+    
     
     let totalNumOfRounds = 10;
     
     func startExperiemnt() {
+        let notifGenerator = UINotificationFeedbackGenerator()
+        
         Task {
             isProgressing = true
             
@@ -27,6 +34,8 @@ struct ContentView: View {
                 print("Wait for \(timing) seconds...")
                 
                 try await Task.sleep(nanoseconds: UInt64(timing * Double(NSEC_PER_SEC)))
+                
+                await notifGenerator.notificationOccurred(.success)
                 
                 print("\(round): Run at \(Date())")
             }
@@ -54,7 +63,9 @@ struct ContentView: View {
                 .progressViewStyle(.circular)
                 .opacity(isProgressing ? 1 : 0)
         }
+        
     }
+    
 
 }
 
