@@ -13,7 +13,7 @@ struct ContentView: View {
     @State private var engine: CHHapticEngine?
     @State private var isProgressing = false;
     
-    let totalNumOfRounds = 10;
+    let intensities = [0.25, 0.6, 1.0];
     
     var body: some View {
         HStack {
@@ -44,21 +44,26 @@ struct ContentView: View {
         Task {
             isProgressing = true
             
+            let currentIntensities = intensities.shuffled()
+            
+            print(currentIntensities)
+            
             // Code function
-            for round in 1...totalNumOfRounds {
+            for round in 0...(currentIntensities.count - 1) {
                 
                 let min = 4.0
-                let max = 4.0
+                let max = 15.0
                 let timing = Double.random(in: min...max)
                 
                 print("Wait for \(timing) seconds...")
                 
                 try await Task.sleep(nanoseconds: UInt64(timing * Double(NSEC_PER_SEC)))
                 
-                //await notifGenerator.notificationOccurred(.success)
-                runHaptic()
+                runHaptic(
+                    intesity: Float(currentIntensities[round])
+                );
                 
-                print("\(round): Run at \(Date())")
+                print("\(round): Run intensity \(currentIntensities[round]) at \(Date())")
             }
             
             isProgressing = false
@@ -77,50 +82,27 @@ struct ContentView: View {
         }
     }
     
-    func runHaptic() {
+    func runHaptic(intesity: Float) {
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         
         var events = [CHHapticEvent]()
         
-        for i in stride(from: 0, to: 1, by: 0.1) {
-            let intensity = CHHapticEventParameter(
-                parameterID: .hapticIntensity,
-                value: Float(i) // <= einstellbar
-            )
-            let sharpness = CHHapticEventParameter(
-                parameterID: .hapticSharpness,
-                value: Float(i) // <= einstellbar
-            )
-            let event = CHHapticEvent(
-                eventType: .hapticTransient, // <= einstellbar
-                parameters: [intensity, sharpness],
-                relativeTime: i
-                //duration: 1
-            )
-            
-            events.append(event)
-        }
+        let intensity = CHHapticEventParameter(
+            parameterID: .hapticIntensity,
+            value: intesity // <= einstellbar
+        )
+        let sharpness = CHHapticEventParameter(
+            parameterID: .hapticSharpness,
+            value: intesity // <= einstellbar
+        )
+        let event = CHHapticEvent(
+            eventType: .hapticContinuous, // <= einstellbar
+            parameters: [intensity, sharpness],
+            relativeTime: 0,
+            duration: 2
+        )
         
-        for i in stride(from: 0, to: 1, by: 0.1) {
-            let intensity = CHHapticEventParameter(
-                parameterID: .hapticIntensity,
-                value: Float(1 - i) // <= einstellbar
-            )
-            let sharpness = CHHapticEventParameter(
-                parameterID: .hapticSharpness,
-                value: Float(1 - i) // <= einstellbar
-            )
-            let event = CHHapticEvent(
-                eventType: .hapticTransient, // <= einstellbar
-                parameters: [intensity, sharpness],
-                relativeTime: 1 + i
-                //duration: 1
-            )
-            
-            events.append(event)
-        }
-        
-        
+        events.append(event)
         
         do {
             let pattern = try CHHapticPattern(events: events, parameters: [])
