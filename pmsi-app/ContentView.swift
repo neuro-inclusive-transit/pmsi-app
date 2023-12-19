@@ -33,6 +33,11 @@ struct LogRowView: View {
     }
 }
 
+enum PhonePlacement: String, CaseIterable, Identifiable {
+    case worst, worstWith, mid, midWith, best, bestWith
+    var id: Self { self }
+}
+
 
 struct ContentView: View {
     
@@ -42,7 +47,8 @@ struct ContentView: View {
         Log(timeAfterStart: "10.0", intensity: "20%"),
         Log(timeAfterStart: "12.0", intensity: "50%")
     ]
-    @State private var selectedLogs = Set<UUID>()
+    @State private var selectedPlacement: PhonePlacement = .best
+
     
     let intensities = [0.25, 0.6, 1.0];
     
@@ -58,13 +64,27 @@ struct ContentView: View {
                 Text("Haptic Psychophysics")
                     .font(.title2)
             }
-            .padding(.bottom)
+            
+            HStack {
+                Text("Placement Variant:")
+                Spacer()
+                Picker("Placement", selection: $selectedPlacement) {
+                    Text("Worst Case").tag(PhonePlacement.worst)
+                    Text("Worst Case \\w Div.").tag(PhonePlacement.worstWith)
+                    Text("Mid Case").tag(PhonePlacement.mid)
+                    Text("Mid Case \\w Div.").tag(PhonePlacement.midWith)
+                    Text("Best Case").tag(PhonePlacement.best)
+                    Text("Best Case \\w Div.").tag(PhonePlacement.bestWith)
+                }
+            }
+            .padding(.all)
             
             Button(action: startExperiemnt) {
                 Text("Begin")
             }
             .disabled(isProgressing)
             .onAppear(perform: prepareHaptics)
+            .buttonStyle(.borderedProminent)
             
             ProgressView()
                 .padding()
