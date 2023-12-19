@@ -14,11 +14,34 @@ struct Log: Identifiable {
     let intensity: String
 }
 
+struct LogRowView: View {
+    var log: Log
+    
+    @State var isChecked = false;
+
+    var body: some View {
+        HStack(spacing: 3) {
+            Text("**After \(log.timeAfterStart)s:** \(log.intensity) intensity")
+            Spacer()
+            Toggle(isOn: $isChecked) {
+                Image(systemName: isChecked ? "iphone.gen3.radiowaves.left.and.right.circle" : "iphone.gen3.slash.circle")
+            }
+            .toggleStyle(.button)
+            .accentColor(isChecked ? .blue : .gray)
+        }
+    }
+}
+
+
 struct ContentView: View {
     
     @State private var engine: CHHapticEngine?
     @State private var isProgressing = false;
-    @State private var logs: [Log] = []
+    @State private var logs: [Log] = [
+        Log(timeAfterStart: "10.0", intensity: "20%"),
+        Log(timeAfterStart: "12.0", intensity: "50%")
+    ]
+    @State private var selectedLogs = Set<UUID>()
     
     let intensities = [0.25, 0.6, 1.0];
     
@@ -26,7 +49,7 @@ struct ContentView: View {
         
         VStack {
         
-            Spacer(minLength: 150)
+            Spacer(minLength: 130)
             
             HStack {
                 Image(systemName: "hand.tap")
@@ -47,10 +70,12 @@ struct ContentView: View {
                 .progressViewStyle(.circular)
                 .opacity(isProgressing ? 1 : 0)
             
-            List(logs) {
-                Text("After \($0.timeAfterStart)s with \($0.intensity) intensity")
+            List {
+                //Text("After \($0.timeAfterStart)s with \($0.intensity) intensity")
+                ForEach (logs) { log in
+                    LogRowView(log: log)
+                }
             }
-            //.frame(height: 300.0)
             
         }
     }
@@ -82,13 +107,13 @@ struct ContentView: View {
                 
                 print("\(index): Run intensity \(currentIntensities[index]) at \(Date())")
                 
-                let diffTime = Date().timeIntervalSince(startDate).rounded()
-                let diffTimeRounded = round(diffTime * 100) / 100
+                let diffTime = Date().timeIntervalSince(startDate)
+                let diffTimeRounded = round(diffTime * 100) / 100.0
                 
                 logs.append(
                     Log(
                         timeAfterStart: "\(diffTimeRounded)",
-                        intensity: "\(currentIntensities[index] * 100) %"
+                        intensity: "\(Int(currentIntensities[index] * 100)) %"
                     )
                 )
             }
