@@ -8,22 +8,34 @@
 import SwiftUI
 import CoreHaptics
 
+struct Log: Identifiable {
+    let id = UUID()
+    let timeAfterStart: String
+    let intensity: String
+}
+
 struct ContentView: View {
     
     @State private var engine: CHHapticEngine?
     @State private var isProgressing = false;
+    @State private var logs: [Log] = []
     
     let intensities = [0.25, 0.6, 1.0];
     
     var body: some View {
-        HStack {
-            Image(systemName: "hand.tap")
-                .imageScale(.large)
-            Text("Haptic Psychophysics")
-                .font(.title2)
-        }
-        .padding(.bottom)
+        
         VStack {
+        
+            Spacer(minLength: 150)
+            
+            HStack {
+                Image(systemName: "hand.tap")
+                    .imageScale(.large)
+                Text("Haptic Psychophysics")
+                    .font(.title2)
+            }
+            .padding(.bottom)
+            
             Button(action: startExperiemnt) {
                 Text("Begin")
             }
@@ -34,24 +46,29 @@ struct ContentView: View {
                 .padding()
                 .progressViewStyle(.circular)
                 .opacity(isProgressing ? 1 : 0)
+            
+            List(logs) {
+                Text("After \($0.timeAfterStart)s with \($0.intensity) intensity")
+            }
+            //.frame(height: 300.0)
+            
         }
-        
     }
     
     func startExperiemnt() {
-        //let notifGenerator = UINotificationFeedbackGenerator()
+        isProgressing = true
+        logs.removeAll()
+        
+        let currentIntensities = intensities.shuffled()
+        print(currentIntensities)
         
         Task {
-            isProgressing = true
             
-            let currentIntensities = intensities.shuffled()
-            
-            print(currentIntensities)
-            
+            let startDate = Date();
             // Code function
-            for round in 0...(currentIntensities.count - 1) {
+            for index in 0...(currentIntensities.count - 1) {
                 
-                let min = 4.0
+                let min = 5.0
                 let max = 15.0
                 let timing = Double.random(in: min...max)
                 
@@ -60,10 +77,20 @@ struct ContentView: View {
                 try await Task.sleep(nanoseconds: UInt64(timing * Double(NSEC_PER_SEC)))
                 
                 runHaptic(
-                    intesity: Float(currentIntensities[round])
+                    intesity: Float(currentIntensities[index])
                 );
                 
-                print("\(round): Run intensity \(currentIntensities[round]) at \(Date())")
+                print("\(index): Run intensity \(currentIntensities[index]) at \(Date())")
+                
+                let diffTime = Date().timeIntervalSince(startDate).rounded()
+                let diffTimeRounded = round(diffTime * 100) / 100
+                
+                logs.append(
+                    Log(
+                        timeAfterStart: "\(diffTimeRounded)",
+                        intensity: "\(currentIntensities[index] * 100) %"
+                    )
+                )
             }
             
             isProgressing = false
