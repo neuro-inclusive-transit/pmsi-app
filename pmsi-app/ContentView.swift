@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreHaptics
+import AudioToolbox
 
 struct Log: Identifiable {
     let id = UUID()
@@ -90,12 +91,13 @@ struct ContentView: View {
         Task {
             
             let startDate = Date();
+            let minTiming = 5.0
+            let maxTiming = 15.0
+            
             // Code function
             for index in 0...(currentIntensities.count - 1) {
-                
-                let min = 5.0
-                let max = 15.0
-                let timing = Double.random(in: min...max)
+
+                let timing = Double.random(in: minTiming...maxTiming)
                 
                 print("Wait for \(timing) seconds...")
                 
@@ -117,6 +119,12 @@ struct ContentView: View {
                     )
                 )
             }
+            
+            try await Task.sleep(nanoseconds: UInt64(minTiming * Double(NSEC_PER_SEC)))
+            
+            AudioServicesPlaySystemSound(
+                1007
+            )
             
             isProgressing = false
         }
