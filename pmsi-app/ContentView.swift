@@ -43,13 +43,10 @@ struct ContentView: View {
     
     @State private var engine: CHHapticEngine?
     @State private var isProgressing = false;
-    @State private var logs: [Log] = [
-        Log(timeAfterStart: "10.0", intensity: "20%"),
-        Log(timeAfterStart: "12.0", intensity: "50%")
-    ]
+    @State private var logs: [Log] = []
     @State private var selectedPlacement: PhonePlacement = .best
+    @State private var numberOfFalsPositives: Int = 0
 
-    
     let intensities = [0.25, 0.6, 1.0];
     
     var body: some View {
@@ -76,15 +73,30 @@ struct ContentView: View {
                     Text("Best Case").tag(PhonePlacement.best)
                     Text("Best Case \\w Div.").tag(PhonePlacement.bestWith)
                 }
+                .disabled(isProgressing)
             }
-            .padding(.all)
+            .padding(.horizontal)
             
-            Button(action: startExperiemnt) {
+            Stepper {
+                Text("False Positives: \(numberOfFalsPositives)")
+            } onIncrement: {
+                numberOfFalsPositives += 1
+            } onDecrement: {
+                numberOfFalsPositives -= 1
+                if (numberOfFalsPositives < 0) {
+                    numberOfFalsPositives = 0
+                }
+            }
+            .disabled(isProgressing)
+            .padding(.horizontal)
+            
+            Button(action: startExperiment) {
                 Text("Begin")
             }
             .disabled(isProgressing)
             .onAppear(perform: prepareHaptics)
             .buttonStyle(.borderedProminent)
+            .padding(.top)
             
             ProgressView()
                 .padding()
@@ -101,9 +113,10 @@ struct ContentView: View {
         }
     }
     
-    func startExperiemnt() {
+    func startExperiment() {
         isProgressing = true
         logs.removeAll()
+        numberOfFalsPositives = 0
         
         let currentIntensities = intensities.shuffled()
         print(currentIntensities)
