@@ -123,6 +123,10 @@ struct ContentView: View {
         
         Task {
             
+            // Initial Wait
+            
+            try await Task.sleep(nanoseconds: UInt64(15 * Double(NSEC_PER_SEC)))
+            
             var lastDate = Date();
             let minTiming = 5.0
             let maxTiming = 15.0
