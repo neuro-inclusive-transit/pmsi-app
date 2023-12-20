@@ -18,7 +18,7 @@ struct Log: Identifiable {
 struct LogRowView: View {
     var log: Log
     
-    @State var isDisabled = false
+    @Binding var isDisabled: Bool
     @State var isChecked = false;
 
     var body: some View {
@@ -108,7 +108,7 @@ struct ContentView: View {
             List {
                 //Text("After \($0.timeAfterStart)s with \($0.intensity) intensity")
                 ForEach (logs) { log in
-                    LogRowView(log: log, isDisabled: isProgressing)
+                    LogRowView(log: log, isDisabled: $isProgressing)
                 }
             }
             
