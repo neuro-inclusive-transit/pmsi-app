@@ -123,7 +123,7 @@ struct ContentView: View {
         
         Task {
             
-            let startDate = Date();
+            var lastDate = Date();
             let minTiming = 5.0
             let maxTiming = 15.0
             
@@ -142,7 +142,8 @@ struct ContentView: View {
                 
                 print("\(index): Run intensity \(currentIntensities[index]) at \(Date())")
                 
-                let diffTime = Date().timeIntervalSince(startDate)
+                let diffTime = Date().timeIntervalSince(lastDate)
+                lastDate = Date()
                 let diffTimeRounded = round(diffTime * 100) / 100.0
                 
                 logs.append(
@@ -151,6 +152,8 @@ struct ContentView: View {
                         intensity: "\(Int(currentIntensities[index] * 100)) %"
                     )
                 )
+                
+                
             }
             
             try await Task.sleep(nanoseconds: UInt64(minTiming * Double(NSEC_PER_SEC)))
@@ -167,7 +170,6 @@ struct ContentView: View {
         guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
         
         do {
-            
             engine = try CHHapticEngine()
             try engine?.start()
         } catch let error {
