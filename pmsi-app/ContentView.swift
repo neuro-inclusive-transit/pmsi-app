@@ -18,6 +18,7 @@ struct Log: Identifiable {
 struct LogRowView: View {
     var log: Log
     
+    @State var isDisabled = false
     @State var isChecked = false;
 
     var body: some View {
@@ -29,6 +30,7 @@ struct LogRowView: View {
             }
             .toggleStyle(.button)
             .accentColor(isChecked ? .blue : .gray)
+            .disabled(isDisabled)
         }
     }
 }
@@ -106,7 +108,7 @@ struct ContentView: View {
             List {
                 //Text("After \($0.timeAfterStart)s with \($0.intensity) intensity")
                 ForEach (logs) { log in
-                    LogRowView(log: log)
+                    LogRowView(log: log, isDisabled: isProgressing)
                 }
             }
             
@@ -123,13 +125,13 @@ struct ContentView: View {
         
         Task {
             
-            // Initial Wait
-            
-            try await Task.sleep(nanoseconds: UInt64(15 * Double(NSEC_PER_SEC)))
-            
             var lastDate = Date();
             let minTiming = 5.0
             let maxTiming = 15.0
+            
+            // Initial Wait
+            try await Task.sleep(nanoseconds: UInt64(15 * Double(NSEC_PER_SEC)))
+            
             
             // Code function
             for index in 0...(currentIntensities.count - 1) {
