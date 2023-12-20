@@ -129,6 +129,10 @@ struct ContentView: View {
             let minTiming = 5.0
             let maxTiming = 15.0
             
+            runHaptic(
+                intesity: Float(1.0)
+            );
+            
             // Initial Wait
             try await Task.sleep(nanoseconds: UInt64(15 * Double(NSEC_PER_SEC)))
             
