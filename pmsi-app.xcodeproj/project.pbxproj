@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C5B27602B347F5100AA3582 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5B275F2B347F5100AA3582 /* LogView.swift */; };
 		BD4C6F712B25EE3000AF46B6 /* pmsi_appApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C6F702B25EE3000AF46B6 /* pmsi_appApp.swift */; };
 		BD4C6F732B25EE3000AF46B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C6F722B25EE3000AF46B6 /* ContentView.swift */; };
 		BD4C6F752B25EE3400AF46B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD4C6F742B25EE3400AF46B6 /* Assets.xcassets */; };
 		BD4C6F782B25EE3400AF46B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD4C6F772B25EE3400AF46B6 /* Preview Assets.xcassets */; };
-		BD4C6F822B25EE3500AF46B6 /* pmsi_appTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C6F812B25EE3500AF46B6 /* pmsi_appTests.swift */; };
-		BD4C6F8C2B25EE3500AF46B6 /* pmsi_appUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C6F8B2B25EE3500AF46B6 /* pmsi_appUITests.swift */; };
-		BD4C6F8E2B25EE3500AF46B6 /* pmsi_appUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD4C6F8D2B25EE3500AF46B6 /* pmsi_appUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,16 +32,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C5B275F2B347F5100AA3582 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		BD4C6F6D2B25EE3000AF46B6 /* pmsi-app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pmsi-app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD4C6F702B25EE3000AF46B6 /* pmsi_appApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pmsi_appApp.swift; sourceTree = "<group>"; };
 		BD4C6F722B25EE3000AF46B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		BD4C6F742B25EE3400AF46B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD4C6F772B25EE3400AF46B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BD4C6F7D2B25EE3500AF46B6 /* pmsi-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "pmsi-appTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD4C6F812B25EE3500AF46B6 /* pmsi_appTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pmsi_appTests.swift; sourceTree = "<group>"; };
 		BD4C6F872B25EE3500AF46B6 /* pmsi-appUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "pmsi-appUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD4C6F8B2B25EE3500AF46B6 /* pmsi_appUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pmsi_appUITests.swift; sourceTree = "<group>"; };
-		BD4C6F8D2B25EE3500AF46B6 /* pmsi_appUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pmsi_appUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,8 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				BD4C6F6F2B25EE3000AF46B6 /* pmsi-app */,
-				BD4C6F802B25EE3500AF46B6 /* pmsi-appTests */,
-				BD4C6F8A2B25EE3500AF46B6 /* pmsi-appUITests */,
 				BD4C6F6E2B25EE3000AF46B6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -96,6 +90,7 @@
 			children = (
 				BD4C6F702B25EE3000AF46B6 /* pmsi_appApp.swift */,
 				BD4C6F722B25EE3000AF46B6 /* ContentView.swift */,
+				8C5B275F2B347F5100AA3582 /* LogView.swift */,
 				BD4C6F742B25EE3400AF46B6 /* Assets.xcassets */,
 				BD4C6F762B25EE3400AF46B6 /* Preview Content */,
 			);
@@ -108,23 +103,6 @@
 				BD4C6F772B25EE3400AF46B6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		BD4C6F802B25EE3500AF46B6 /* pmsi-appTests */ = {
-			isa = PBXGroup;
-			children = (
-				BD4C6F812B25EE3500AF46B6 /* pmsi_appTests.swift */,
-			);
-			path = "pmsi-appTests";
-			sourceTree = "<group>";
-		};
-		BD4C6F8A2B25EE3500AF46B6 /* pmsi-appUITests */ = {
-			isa = PBXGroup;
-			children = (
-				BD4C6F8B2B25EE3500AF46B6 /* pmsi_appUITests.swift */,
-				BD4C6F8D2B25EE3500AF46B6 /* pmsi_appUITestsLaunchTests.swift */,
-			);
-			path = "pmsi-appUITests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD4C6F732B25EE3000AF46B6 /* ContentView.swift in Sources */,
+				8C5B27602B347F5100AA3582 /* LogView.swift in Sources */,
 				BD4C6F712B25EE3000AF46B6 /* pmsi_appApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,7 +245,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD4C6F822B25EE3500AF46B6 /* pmsi_appTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +252,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD4C6F8E2B25EE3500AF46B6 /* pmsi_appUITestsLaunchTests.swift in Sources */,
-				BD4C6F8C2B25EE3500AF46B6 /* pmsi_appUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
